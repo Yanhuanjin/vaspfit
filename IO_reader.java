@@ -4,23 +4,24 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class IO {
+public class IO_reader implements IO_vasp {
 
     // properties
     private float value;
     private String filePath;
 
     //constructor
-    public IO(String filePath){
+    public IO_reader(String filePath){
         this.filePath = filePath;
     }
 
     // parser
-    public float parser(IO io, String keywords){
-        List<String> lines = io.readFile();
+    @Override
+    public float parser(IO_reader ioReader, String keywords){
+        List<String> lines = ioReader.readFile();
         for (String line : lines) {
             if (line.contains(keywords)) {
-                value = Float.parseFloat(io.getPara(line, 2));
+                value = Float.parseFloat(ioReader.getPara(line, 2));
             }
 
         }
@@ -53,10 +54,10 @@ public class IO {
     }
 
     public static void main(String[] args) {
-        IO io = new IO("C:/Users/yanfa/Desktop/OUTCAR");
-        float NELECT = io.parser(io, "NELECT");
+        IO_reader ioReader = new IO_reader("C:/Users/yanfa/Desktop/OUTCAR");
+        float NELECT = ioReader.parser(ioReader, "NELECT");
         System.out.println(NELECT);
-        float FERMI = io.parser(io, "E-fermi");
+        float FERMI = ioReader.parser(ioReader, "E-fermi");
         System.out.println(FERMI);
     }
 
