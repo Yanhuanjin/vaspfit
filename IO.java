@@ -5,34 +5,60 @@ import java.io.IOException;
 import java.util.*;
 
 public class IO {
-    public static String NELECT;
-    public static String FERMI;
 
-    public static void main(String[] args) {
-        File f = new File("C:/Users/yanfa/Desktop/OUTCAR");
+    // properties
+    private float value;
+    private String filePath;
+
+    //constructor
+    public IO(String filePath){
+        this.filePath = filePath;
+    }
+
+    // parser
+    public float parser(IO io, String keywords){
+        List<String> lines = io.readFile();
+        for (String line : lines) {
+            if (line.contains(keywords)) {
+                value = Float.parseFloat(io.getPara(line, 2));
+            }
+
+        }
+        return value;
+    }
+
+    // reader
+    private List<String> readFile(){
+        File f = new File(filePath);
+        List<String> StrList = new ArrayList<>();
         try (FileReader fr = new FileReader(f);
-             BufferedReader br = new BufferedReader(fr)){
+             BufferedReader br = new BufferedReader(fr)) {
             while (true) {
                 String line = br.readLine();
                 if (null == line)
                     break;
-                if (line.contains("NELECT")){
-                    NELECT = getNELECT(line);
-                }
-
+                else
+                    StrList.add(line);
             }
-            System.out.println(NELECT);
-
         }catch (IOException e){
             e.printStackTrace();
         }
+        return StrList;
     }
 
-    public static String getNELECT(String line){
-        List<String> nelect = Arrays.asList(line.trim().split("\\s+"));
-        return nelect.get(2);
+    //
+    private String getPara(String line, int position){
+        List<String> para = Arrays.asList(line.trim().split("\\s+"));
+        return para.get(position);
     }
 
+    public static void main(String[] args) {
+        IO io = new IO("C:/Users/yanfa/Desktop/OUTCAR");
+        float NELECT = io.parser(io, "NELECT");
+        System.out.println(NELECT);
+        float FERMI = io.parser(io, "E-fermi");
+        System.out.println(FERMI);
+    }
 
 
 
