@@ -17,13 +17,8 @@ public class IO {
                 if (null == line)
                     break;
                 if (line.contains("NELECT")){
-                    String[] e = line.split("\\s+");
-                    for (int i = 0; i < e.length; i++) {
-                        System.out.print(e[i]);
-                    }
-                    System.out.println();
-                    removeSpace(Arrays.asList(e));
-
+                    List<String> e = Arrays.asList(line.trim().split("\\s+"));
+                    System.out.println(e.get(2));
                 }
             }
                 //if (line.contains("E-fermi"))
@@ -33,22 +28,6 @@ public class IO {
         }
     }
 
-    public static void removeSpace(List<String> d){
-        System.out.println(d);
-        List<String> x = new ArrayList<String>();
-        for (int i = 0; i <d.size(); i++) {
-            if(d.get(i) != null) {
-                System.out.print(d.get(i) + "/");
-                x.add(d.get(i));
-            }
-        }
-        System.out.println();
-        for (int i = 0; i < x.size(); i++) {
-            System.out.print(x.get(i));
-        }
-        System.out.println();
-        System.out.println(x.get(3));
-    }
 
 
 
